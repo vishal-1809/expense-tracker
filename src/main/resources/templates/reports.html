@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="~{layouts/master :: headelement}">
+
+</head>
+
+<body class="sb-nav-fixed">
+  <nav th:replace="~{layouts/master :: navelement}">
+
+  </nav>
+  <div id="layoutSidenav">
+    <div th:replace="~{layouts/master :: sidebarelement}">
+
+    </div>
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="container-fluid px-4">
+          <h1 class="mt-4">About</h1>
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="/reports">About</a></li>
+            <li class="breadcrumb-item active">About</li>
+          </ol>
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="about-container">
+                <h1>About Us</h1>
+                <p>Welcome to the <span class="highlight">Expense Tracker</span> — your smart solution for managing
+                  personal finances. This web application is designed to help users track their incomes, monitor
+                  expenses, and visualize their financial health through interactive charts.</p>
+
+                <p>The system provides a comprehensive dashboard where users can view their total income, total
+                  expenses, and the number of transactions. All financial data is visually represented using <span
+                    class="highlight">Bar Graphs</span>, <span class="highlight">Line Graphs</span>, and <span
+                    class="highlight">Pie Charts</span> to ensure clear financial insights.</p>
+
+                <p>
+  This project was developed by <span class="highlight">Vishal Yadav</span>, a <span class="highlight">Full Stack Java Developer with alost 2 years of experience</span> at <span class="highlight">Tata Consultancy Services (TCS)</span>. It leverages modern technologies such as Java Spring Boot, MySQL, HTML, CSS, and JavaScript to deliver a robust, user-friendly, and performance-optimized personal expense tracking solution.
+</p>
+
+
+                <div class="tech-stack">
+                  <strong>Technologies Used:</strong><br>
+                  Java Spring Boot (Backend) · MySQL (Database) · HTML, CSS, JavaScript (Frontend) · Chart.js for Graphs
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-blank me-1"></i>
+              Entity and Relationship
+            </div>
+            <div class="card-body">
+              <!-- Add any content you want in this section -->
+              <h1>Expense Tracker - ER Diagram</h1>
+              <h2>Entity Relationship Overview</h2>
+
+              <div class="diagram-container">
+                <!-- Categories Table -->
+                <div class="entity-box">
+                  <div class="entity-title">categories</div>
+                  <div class="attribute"><span class="key">id</span> (PK)</div>
+                  <div class="attribute">name</div>
+                  <div class="attribute">type ('INCOME'/'EXPENSE')</div>
+                  <div class="attribute">created_at</div>
+                </div>
+
+                <!-- Transactions Table -->
+                <div class="entity-box">
+                  <div class="entity-title">transactions</div>
+                  <div class="attribute"><span class="key">id</span> (PK)</div>
+                  <div class="attribute">amount</div>
+                  <div class="attribute">description</div>
+                  <div class="attribute">date</div>
+                  <div class="attribute"><span class="fk">category_id</span> (FK)</div>
+                  <div class="attribute">created_at</div>
+                </div>
+              </div>
+
+              <div class="relationship">
+                One <strong>category</strong> → Many <strong>transactions</strong><br />
+                (<code>category_id</code> in transactions refers to <code>id</code> in categories)
+              </div>
+
+              <div class="notes">
+                <strong>categories:</strong> Defines classification types for transactions such as "Salary", "Rent", or
+                "Groceries". Each category has a type (either INCOME or EXPENSE).<br><br>
+                <strong>transactions:</strong> Logs each financial record with amount, description, date, and category.
+                Links to <code>categories</code> using <code>category_id</code> foreign key.<br><br>
+                The system ensures normalization and integrity by maintaining a clean one-to-many relationship.
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer th:replace="~{layouts/master :: footerelement}">
+
+      </footer>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
+  <script src="js/datatables-simple-demo.js"></script>
+</body>
+
+</html>

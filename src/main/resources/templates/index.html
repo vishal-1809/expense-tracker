@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{layouts/master :: headelement}">
+<link href="../static/css/styles.css" rel="stylesheet" />
+</head>
+<body class="sb-nav-fixed">
+	<nav th:replace="~{layouts/master :: navelement}"></nav>
+	<div id="layoutSidenav">
+		<div th:replace="~{layouts/master :: sidebarelement}"></div>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<!-- Page Heading -->
+					<div
+						class="d-flex align-items-center justify-content-between mt-4 mb-4">
+						<h1 class="display-4">Dashboard</h1>
+						<div class="d-flex">
+						<div class="savings-box">
+						   <div class="savings-label">Total Savings</div>
+						   <div class="savings-amount counter" id="counter">₹</div>
+						</div>
+						</div>
+					</div>
+
+					<!-- Breadcrumb Navigation -->
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+						<li class="breadcrumb-item active">Overview</li>
+					</ol>
+
+					<!-- Chart Section -->
+					<section class="mb-5">
+						<h2 class="h3 mb-3 text-muted">Transactions, Incomes, and
+							Expenses Over Time</h2>
+						<div class="card shadow-sm">
+						
+
+							<div class="display_type">
+								<div class="slider-buttons">
+									<div class="slider-indicator" id="sliderIndicator"></div>
+									<button onclick="clicked('transactionChart', 0)" id="btn0"
+										class="active">Line Graph</button>
+									<button onclick="clicked('transactionChart1', 1)" id="btn1">Bar
+										Graph</button>
+									<button onclick="clicked('transactionChart2', 2)" id="btn2">Pie
+										Chart</button>
+								</div>
+							</div>
+							<div class="card-body">
+							<div class="d-flex align-items-center justify-content-center mb-3">
+										<div class="selections" style="display: flex; gap: 8px; align-items: center;">
+											<label for="yearSelect">Year</label>
+											<select id="yearSelect" class="form-select w-auto">
+												<option value="2001">2001</option>
+												<option value="2002">2002</option>
+												<option value="2003">2003</option>
+												<option value="2004">2004</option>
+												<option value="2005">2005</option>
+												<option value="2006">2006</option>
+												<option value="2007">2007</option>
+												<option value="2008">2008</option>
+												<option value="2009">2009</option>
+												<option value="2010">2010</option>
+												<option value="2011">2011</option>
+												<option value="2012">2012</option>
+												<option value="2013">2013</option>
+												<option value="2014">2014</option>
+												<option value="2015">2015</option>
+												<option value="2016">2016</option>
+												<option value="2017">2017</option>
+												<option value="2018">2018</option>
+												<option value="2019">2019</option>
+												<option value="2020">2020</option>
+												<option value="2021">2021</option>
+												<option value="2022">2022</option>
+												<option value="2023">2023</option>
+												<option value="2024">2024</option>
+												<option value="2025" selected>2025</option>
+											</select> 
+											<label for="monthSelect">Month</label>
+											<select id="monthSelect" class="form-select w-auto">
+												<option value="JANUARY">January</option>
+												<option value="FEBRUARY">February</option>
+												<option value="MARCH">March</option>
+												<option value="APRIL">April</option>
+												<option value="MAY">May</option>
+												<option value="JUNE">June</option>
+												<option value="JULY">July</option>
+												<option value="AUGUST">August</option>
+												<option value="SEPTEMBER">September</option>
+												<option value="OCTOBER">October</option>
+												<option value="NOVEMBER">November</option>
+												<option value="DECEMBER">December</option>
+											</select>
+										</div>
+									</div>
+								<div id="transactionChart_">
+									<div
+										class="d-flex align-items-center justify-content-between mb-3">
+										<h2 class="h3 text-muted">Financial Breakdown (Line
+											Graph)</h2>
+									</div>
+									<canvas id="transactionChart" width="800" height="400"></canvas>
+								</div>
+								<div id="transactionChart1_1" style="display: none;">
+									<div
+										class="d-flex align-items-center justify-content-between mb-3">
+										<h2 class="h3 text-muted">Financial Breakdown (Line
+											Graph)</h2>
+									</div>
+									<canvas id="transactionChart1" width="800" height="400"
+										style="display: none;"></canvas>
+								</div>
+								<div id="transactionChart2_2" style="display: none;">
+									<div
+										class="d-flex align-items-center justify-content-between mb-3">
+										<h2 class="h3 text-muted">Financial Breakdown (Pie Chart)</h2>
+									</div>
+									<div class="d-flex justify-content-center">
+									<canvas id="transactionChart2" style="display: none; height: 600px; width: 600px"></canvas>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer text-muted text-center small">
+								Current month data of income, expenses, and transactions</div>
+						</div>
+					</section>
+
+					<!-- Statistics Overview Section -->
+					<section>
+						<div class="row">
+
+							<!-- Total Income -->
+							<div class="col-xl-4 col-md-6 mb-4">
+								<div class="card border-success shadow-sm h-100">
+									<div class="card-header bg-success text-white">
+										<h4 class="card-title mb-0">Total Income</h4>
+									</div>
+									<div class="card-body">
+										<p class="card-text lead text-muted">Income Overview</p>
+										<div id="total-incomes" class="display-4 text-center"></div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Total Expenses -->
+							<div class="col-xl-4 col-md-6 mb-4">
+								<div class="card border-danger shadow-sm h-100">
+									<div class="card-header bg-danger text-white">
+										<h4 class="card-title mb-0">Total Expenses</h4>
+									</div>
+									<div class="card-body">
+										<p class="card-text lead text-muted">Expense Overview</p>
+										<div id="total-expenses" class="display-4 text-center"></div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Total Transactions -->
+							<div class="col-xl-4 col-md-6 mb-4">
+								<div class="card border-primary shadow-sm h-100">
+									<div class="card-header bg-primary text-white">
+										<h4 class="card-title mb-0">Total Transactions</h4>
+									</div>
+									<div class="card-body">
+										<p class="card-text lead text-muted">Transactions Overview</p>
+										<div id="total-transactions" class="display-4 text-center"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</main>
+
+			<footer th:replace="~{layouts/master :: footerelement}"> </footer>
+		</div>
+	</div>
+
+	<!-- JavaScript for handling AJAX requests -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+    $(document).ready(function() {
+
+        let totalExpense = 0, totalIncome = 0;
+        let targetValue = 0;
+        const startValue = Math.floor(Math.random() * (targetValue - 30));
+        let current = startValue;
+
+        const duration = 1000; // total animation time in ms
+        const startTime = performance.now();
+    	
+    	const monthSelect = document.getElementById("monthSelect");
+    	  const currentMonthIndex = new Date().getMonth(); // 0 (Jan) to 11 (Dec)
+    	  const monthValues = [
+    	    "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+    	    "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+    	  ];
+
+    	  const currentMonthValue = monthValues[currentMonthIndex];
+
+    	  // Set the value in the select
+    	  monthSelect.value = currentMonthValue;
+
+        $.ajax({
+            url: "/total-expenses",
+            method: "GET",
+            success: function(data) {
+                $('#total-expenses').html(`
+                <div class="expense-details">
+                    <div class="expense-item"><span class="label">Monthly:</span> <span class="value">Rs.${data.monthly.toFixed(2)}</span></div>
+                    <div class="expense-item"><span class="label">Weekly:</span> <span class="value">Rs.${data.weekly.toFixed(2)}</span></div>
+                    <div class="expense-item"><span class="label">Yearly:</span> <span class="value">Rs.${data.yearly.toFixed(2)}</span></div>
+                    <div class="expense-item"><span class="label">Total:</span> <span class="value">Rs.${data.grandtotal.toFixed(2)}</span></div>
+                </div>
+            `);
+                totalExpense = data.grandtotal;
+                updateTotal(totalExpense, totalIncome);
+            },
+            error: function(error) {
+                $('#total-expenses').html('Error fetching data');
+            }
+        });
+
+
+        $(document).ready(function() {
+    // Fetch Total Incomes Data
+    $.ajax({
+        url: "/total-incomes",
+        method: "GET",
+        success: function(data) {
+             $('#total-incomes').html(`
+                <div class="expense-details">
+                    <div class="income-item">
+                        <span class="label">Monthly:</span> <span class="value">Rs.${data.monthly.toFixed(2)}</span>
+                    </div>
+                    <div class="income-item">
+                        <span class="label">Weekly:</span> <span class="value">Rs.${data.weekly.toFixed(2)}</span>
+                    </div>
+                    <div class="income-item">
+                        <span class="label">Yearly:</span> <span class="value">Rs.${data.yearly.toFixed(2)}</span>
+                    </div>
+                    <div class="income-item">
+                    <span class="label">Total:</span> <span class="value">Rs.${data.grandtotal.toFixed(2)}</span>
+                </div>
+                </div>
+            `);
+             totalIncome = data.grandtotal;
+             updateTotal(totalExpense, totalIncome);
+        },
+        error: function(error) {
+            $('#total-incomes').html('Error fetching data');
+        }
+    });
+});
+
+
+
+
+// Fetch Total Transactions Data
+    $.ajax({
+        url: "/total-transactions", // Endpoint you defined in the controller
+        method: "GET",
+        success: function(data) {
+            // Display the total transactions data in the HTML
+            $('#total-transactions').html(`
+                <div class="transaction-details">
+                    <div class="transaction-item"><span class="label">Monthly:</span> <span class="value">${data.monthly}</span></div>
+                    <div class="transaction-item"><span class="label">Weekly:</span> <span class="value">${data.weekly}</span></div>
+                    <div class="transaction-item"><span class="label">Yearly:</span> <span class="value">${data.yearly}</span></div>
+                    <div class="transaction-item"><span class="label">Total:</span> <span class="value">${data.grandtotal}</span></div>
+                </div>
+            `);
+        },
+        error: function(error) {
+            // If there is an error with the AJAX request, display an error message
+            $('#total-transactions').html('Error fetching data');
+        }
+    });
+    
+    
+    function updateTotal(totalExpense, totalIncome) {
+    	targetValue = totalIncome - totalExpense
+    }
+    
+    function animate(time) {
+        const counter = document.getElementById('counter');
+        const progress = Math.min((time - startTime) / duration, 1); // from 0 to 1
+        current = Math.floor(startValue + (targetValue - startValue) * progress);
+        counter.textContent = '₹' + current;
+        if(targetValue >= 0) {
+        	counter.style.color = 'rgb(25, 135, 84)';
+        }
+        else {
+        	counter.style.color = 'rgb(255, 99, 132)';
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          counter.textContent = '₹' + targetValue; // ensure it ends exactly on target
+          if(targetValue >= 0) {
+        	  counter.textContent += '↑';
+          } 
+          else {
+        	  counter.textContent += '↓';
+          }
+        }
+      }
+
+      // Start the animation
+      requestAnimationFrame(animate);
+
+
+
+    });
+
+
+</script>
+
+
+
+	<script>
+    $(document).ready(function() {
+    	
+      // Define months array to map data in correct order
+       const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+                       "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+      
+       const currentMonthIndex = new Date().getMonth();
+
+       // Variables to store data for each chart
+       let expenses = Array(12).fill(0);   // Initialize with 12 zeros for each month
+       let incomes = Array(12).fill(0);
+       let transactions = Array(12).fill(0);
+       
+       let expenses1 = Array(12).fill(0);   // Initialize with 12 zeros for each month
+       let incomes1 = Array(12).fill(0);
+       let transactions1 = Array(12).fill(0);
+       
+       let selectedMonth = months[currentMonthIndex];
+
+        // AJAX call for total incomes by month
+       $.ajax({
+           url: "/total-incomes-by-month",
+           method: "GET",
+           success: function (data) {
+               // Map income data to the months array
+               months.forEach((month, index) => {
+                   incomes[index] = data[month] || 0;  // Use 0 if month data is missing
+               });
+               incomes1 = incomes;
+               updateChart();  // Update chart once data is loaded
+           },
+           error: function (error) {
+               console.error("Error fetching total incomes by month:", error);
+               $('#totalIncomes').text("Failed to load data.");
+           }
+       });
+
+       // AJAX call for total expenses by month
+       $.ajax({
+           url: "/total-expenses-by-month",
+           method: "GET",
+           success: function (data) {
+               months.forEach((month, index) => {
+                   expenses[index] = data[month] || 0;
+               });
+               expenses1 = expenses;
+               updateChart();
+           },
+           error: function (error) {
+               console.error("Error fetching total expenses by month:", error);
+               $('#totalExpenses').text("Failed to load data.");
+           }
+       });
+
+        // AJAX call for total transactions by month
+       $.ajax({
+           url: "/total-transactions-by-month",
+           method: "GET",
+           success: function (data) {
+               months.forEach((month, index) => {
+                   transactions[index] = data[month] || 0;
+               });
+               transactions1 = transactions;
+               updateChart();
+           },
+           error: function (error) {
+               console.error("Error fetching total transactions by month:", error);
+               $('#totalTransactions').text("Failed to load data.");
+           }
+       });
+        
+        
+        // --------------------------------------------------------------------------------------------------
+        // Handle month selection change
+	    $('#monthSelect').on('change', function() {
+	        selectedMonth = $(this).val();
+	        updateChart();
+	    });
+        
+	    $('#yearSelect').on('change', function() {
+	        selectedYear = $(this).val();
+	        $.ajax({
+			    url: "/total-income-by-month_year",
+			    method: "POST",
+			    contentType: "application/json",
+			    data: JSON.stringify({ month: "JANUARY", year: selectedYear }),
+			    success: function(data) {
+			        console.log("Income for ",selectedYear,": ", data);
+			        months.forEach((month, index) => {
+		            	incomes1[index] = data[month] || 0;  // Use 0 if month data is missing
+		            });
+			        // Update chart or UI
+			        updateChart();
+			    },
+			    error: function(error) {
+			        console.error("Error fetching income:", error.responseText);
+			    }
+			});
+	        $.ajax({
+			    url: "/total-expenses-by-month_year",
+			    method: "POST",
+			    contentType: "application/json",
+			    data: JSON.stringify({ month: "JANUARY", year: selectedYear }),
+			    success: function(data) {
+			        console.log("Expense for ",selectedYear,": ", data);
+			        months.forEach((month, index) => {
+		            	expenses1[index] = data[month] || 0;  // Use 0 if month data is missing
+		            });
+			        // Update chart or UI
+			        updateChart();
+			    },
+			    error: function(error) {
+			        console.error("Error fetching expense:", error.responseText);
+			    }
+			});
+	        updateChart();	
+	        $.ajax({
+			    url: "/total-transactions-by-month_year",
+			    method: "POST",
+			    contentType: "application/json",
+			    data: JSON.stringify({ month: "JANUARY", year: selectedYear }),
+			    success: function(data) {
+			        console.log("Transaction for ",selectedYear,": ", data);
+			        months.forEach((month, index) => {
+			        	transactions1[index] = data[month] || 0;  // Use 0 if month data is missing
+		            });
+			        // Update chart or UI
+			        updateChart();
+			    },
+			    error: function(error) {
+			        console.error("Error fetching transaction:", error.responseText);
+			    }
+			});
+	    });
+        
+        
+
+
+       // Chart.js configuration
+       const ctx = document.getElementById('transactionChart').getContext('2d');
+       const data = {
+           labels: months.map(m => m.charAt(0) + m.slice(1).toLowerCase()),  // Format labels (e.g., "January")
+           datasets: [
+               {
+                   label: 'Total Incomes',
+                   data: incomes1,
+                   borderColor: 'rgb(25, 135, 84)',
+                   pointRadius: 5,
+                   pointHoverRadius: 8,
+                   fill: false,
+                   tension: 0.2
+               },
+               {
+                   label: 'Total Expenses',
+                   data: expenses,
+                   borderColor: 'rgb(255, 99, 132)',
+                   pointRadius: 5,
+                   pointHoverRadius: 8,
+                   fill: false,
+                   tension: 0.2
+               },
+               {
+                   label: 'Total Transactions',
+                   data: transactions,
+                   borderColor: 'rgb(54, 162, 235)',
+                   pointRadius: 5,
+                   pointHoverRadius: 8,
+                   fill: false,
+                   tension: 0.2
+               }
+           ]
+       };
+
+       const config = {
+           type: 'line',
+           data: data,
+           options: {
+               responsive: true,
+               plugins: {
+                   legend: {
+                       display: true,
+                   },
+                   title: {
+                       display: true,
+                       text: 'Transactions, Incomes, and Expenses by Month'
+                   }
+               },
+               scales: {
+                   x: {
+                       title: {
+                           display: true,
+                           text: 'Month'
+                       }
+                   },
+                   y: {
+                       beginAtZero: true,
+                       title: {
+                           display: true,
+                           text: 'Amount'
+                       }
+                   }
+               }
+           }
+       };
+
+       const transactionChart = new Chart(ctx, config);
+       
+       
+       // 1 adding
+       
+       const ctx1 = document.getElementById('transactionChart1').getContext('2d');
+
+       const data1 = {
+           labels: months.map(m => m.charAt(0) + m.slice(1).toLowerCase()),
+           datasets: [
+               {
+                   label: 'Income',
+                   data: incomes,
+                   backgroundColor: 'rgba(25, 135, 84, 0.6)',
+                   borderColor: 'rgba(25, 135, 84, 1)',
+                   borderWidth: 1
+               },
+               {
+                   label: 'Expense',
+                   data: expenses,
+                   backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                   borderColor: 'rgba(255, 99, 132, 1)',
+                   borderWidth: 1
+               },
+   				{
+            	   label: 'Total Transactions',
+                   data: transactions,
+                   backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                   borderColor: 'rgba(54, 162, 235, 1)',
+                   borderWidth: 1
+   				}
+           ]
+       };
+
+       const config1 = {
+           type: 'bar',
+           data: data1,
+           options: {
+               responsive: true,
+               plugins: {
+                   legend: {
+                       display: true
+                   },
+                   title: {
+                       display: true,
+                       text: 'Monthly Income vs Expense (Current Year)'
+                   }
+               },
+               scales: {
+                   x: {
+                       title: {
+                           display: true,
+                           text: 'Month'
+                       }
+                   },
+                   y: {
+                       beginAtZero: true,
+                       title: {
+                           display: true,
+                           text: 'Amount'
+                       }
+                   }
+               }
+           }
+       };
+
+       // Initialize the bar chart
+       const transactionChart1 = new Chart(ctx1, config1);
+
+       
+       
+       // 2 adding
+       
+       const ctx2 = document.getElementById('transactionChart2').getContext('2d');
+       const data2 = {
+	        labels: ['Total Income', 'Total Expenses', 'Total Transactions'],
+	        datasets: [{
+	            data: [
+	            	incomes[months.indexOf(selectedMonth)],
+	                expenses[months.indexOf(selectedMonth)],
+	                transactions[months.indexOf(selectedMonth)]
+	            ],
+	            backgroundColor: [
+	                'rgb(25, 135, 84)',  // Incomes
+	                'rgb(255, 99, 132)',  // Expenses
+	                'rgb(54, 162, 235)'   // Transactions
+	            ],
+	            borderColor: ['#fff', '#fff', '#fff'],
+	            borderWidth: 2
+	        }]
+	    };
+
+	    const config2 = {
+	        type: 'pie',
+	        data: data2,
+	        options: {
+	            responsive: false,
+	            maintainAspectRatio: false,
+	            plugins: {
+	                legend: {
+	                    position: 'top',
+	                    labels: {
+	                        font: {
+	                            size: 14
+	                        }
+	                    }
+	                },
+	                title: {
+	                    display: true,
+	                    text: `Financial Overview for ${selectedMonth.charAt(0) + selectedMonth.slice(1).toLowerCase()}`,
+	                    font: {
+	                        size: 18
+	                    }
+	                },
+	                tooltip: {
+	                    callbacks: {
+	                        label: function(context) {
+	                            let label = context.label || '';
+	                            let value = context.raw || 0;
+	                            return `${label}: ${label === 'Total Transactions' ? value : '$' + value.toFixed(2)}`;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    };
+	
+	    const transactionChart2 = new Chart(ctx2, config2);
+	       
+
+         // Update chart data after each successful AJAX call
+       function updateChart() {
+           transactionChart.data.datasets[0].data = incomes1;
+           transactionChart.data.datasets[1].data = expenses;
+           transactionChart.data.datasets[2].data = transactions;
+           transactionChart.update();
+           
+           transactionChart1.data.datasets[0].data = incomes;
+           transactionChart1.data.datasets[1].data = expenses;
+           transactionChart1.data.datasets[2].data = transactions;
+           transactionChart1.update();
+           
+           const monthIndex = months.indexOf(selectedMonth);
+           transactionChart2.data.datasets[0].data = [
+               incomes[monthIndex] || 0,
+               expenses[monthIndex] || 0,
+               transactions[monthIndex] || 0
+           ];
+           transactionChart2.options.plugins.title.text = `Financial Overview for ${selectedMonth.charAt(0) + selectedMonth.slice(1).toLowerCase()}`;
+           transactionChart2.update();
+       }
+        
+
+
+       
+
+
+
+   });
+    
+    
+    function clicked(data, index) {
+    	if(data === "transactionChart") {
+    		$('#transactionChart').show();
+    		$('#transactionChart_').show();
+        	$('#transactionChart1').hide();
+        	$('#transactionChart2').hide();
+        	$('#transactionChart1_1').hide();
+        	$('#transactionChart2_2').hide();
+    	}
+    	else if(data === "transactionChart1") {
+    		$('#transactionChart1').show();
+    		$('#transactionChart1_1').show();
+    		$('#transactionChart').hide();
+        	$('#transactionChart2').hide();
+        	$('#transactionChart_').hide();
+        	$('#transactionChart2_2').hide();
+    	}
+    	else if(data === "transactionChart2") {
+    		$('#transactionChart2').show();
+    		$('#transactionChart2_2').show();
+    		$('#transactionChart').hide();
+        	$('#transactionChart1').hide();
+        	$('#transactionChart_').hide();
+        	$('#transactionChart1_1').hide();
+    	}
+    	
+    	// Move indicator
+        const indicator = document.getElementById("sliderIndicator");
+        indicator.style.transform = `translateX(${index * 100}%)`;
+
+        // Toggle button active states
+        document.querySelectorAll('.slider-buttons button').forEach((btn, i) => {
+          btn.classList.toggle('active', i === index);
+        });
+
+        // Show selected chart
+        document.querySelectorAll('.chart-container').forEach(div => {
+          div.classList.remove('active');
+        });
+        document.getElementById(data).classList.add('active');
+    	
+	}
+
+
+</script>
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/scripts.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
