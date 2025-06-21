@@ -4,6 +4,32 @@ A full-stack personal finance management web application that helps users track 
 
 ---
 
+## 📸 Screenshots
+
+<div style="display: flex;flex-direction: column; grid-gap: 10px;">
+    <div style="display: flex; grid-gap: 10px; margin:2px">
+        <img src="src/main/resources/static/assets/output/1.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/2.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/3.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/4.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/5.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+    </div>
+    <div style="display: flex; grid-gap: 10px; margin:2px">
+        <img src="src/main/resources/static/assets/output/6.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/7.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/8.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/9.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+        <img src="src/main/resources/static/assets/output/11.png" alt="screenshots" width="19.5%" style="border: 2px solid lightgreen"/>
+    </div>
+<!--     <div style="display: flex; grid-gap: 10px;  margin:2px">
+    </div> -->
+</div>
+<br>
+
+## 🎥 Demo Video
+[<img src="src/main/resources/static/assets/output/2.png" width="320" height="180" />](https://github.com/vishal-1809/expense-tracker/blob/main/src/main/resources/static/assets/output/preview.mp4)
+
+
 ## 📌 Features
 
 - ✍️ Add, update, and delete income and expense transactions
